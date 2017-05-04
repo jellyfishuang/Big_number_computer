@@ -1,50 +1,63 @@
-//Name: jellyfishuang
-//Date: 4/20/2017
+// ConsoleApplication1.cpp : 定義主控台應用程式的進入點。
+//
 
 #include <iostream>
 #include <string>
 
-#define MAX 160
-#define LEN 100
-#define NUMBER 10000
 using namespace std;
+#define LEN 56000
+#define MAX 6666
+int Num[MAX + 1][LEN];
 
-int main()
+class fac
 {
-	string input;
-	int input_num[NUMBER];
-	cin >> input;
-	int len = input.size();
-	for (int i = len - 1; i != -1; i--)
-	{
-		input_num[i] = input[i] - '0';
-	}
-	for (int i = 0; i < len; i++)
-		cout << input_num[i];
+public:
+	void process();
+	void Print(int n);
+};
 
-	/*int Num[MAX][LEN] = { 0 };
+void fac::process()
+{
 	int i, j;
-	for (i = 0; i < MAX; i++)
-		for (j = 0; j < LEN; j++)
+	for (i = 0; i<MAX; i++)
+		for (j = 0; j<LEN; j++)
 			Num[i][j] = 0;
-
 	Num[0][0] = 1;
 	Num[1][0] = 1;
 	for (i = 2; i <= MAX; i++)
-	{
-		for (j = 0; j < LEN; j++)
+		for (j = 0; j<LEN; j++) 
 		{
 			Num[i][j] += Num[i - 1][j] * i;
-			if (Num[i][j] >= 10)
+			if (Num[i][j] >= 1000) 
 			{
-				Num[i][j + 1] += Num[i][j] / 10;
-				Num[i][j] %= 10;
+				Num[i][j + 1] += Num[i][j] / 1000;
+				Num[i][j] %= 1000;
 			}
 		}
-	}
-	*/
-	system("pause");
-	return 0;
+}
+void fac::Print(int n)
+{
+	int i;
+	cout << n << "!=";
+	for (i = LEN - 1; i>0; i--)
+		if (Num[n][i] != 0) 
+			break;
+	for (; i >= 0; i--)
+		cout << Num[n][i];
+	cout << endl;
 }
 
+int main()
+{
+	fac number;
+	int input;
+	while (cin >> input)
+	{
+		number.process();
+		number.Print(input);
+	}
+
+
+    return 0;
+}
 
