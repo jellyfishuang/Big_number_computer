@@ -1,0 +1,82 @@
+#include <iostream>
+#include <string>
+#include <sstream>
+
+using namespace std;
+
+int main()
+{
+	string input1,input2;
+	while (cin >> input1>>input2)
+	{
+		string real_num_1, i_num_1,real_num_2,i_num_2;
+		int input1_len = input1.size();
+		int input2_len = input2.size();
+		int op1_spot,op2_spot;
+		//抓+,-的位置 實部與虛部的區別位置
+		for (int i = 1; i < input1.size(); i++)
+		{
+			if (input1[i] == '+' || input1[i] == '-')
+			{
+				op1_spot = i;
+				break;
+			}
+		}
+		for (int i = 1; i < input2.size(); i++)
+		{
+			if (input2[i] == '+' || input2[i] == '-')
+			{
+				op2_spot = i;
+				break;
+			}
+		}
+		//拆解實部與虛部
+		real_num_1 = real_num_1.assign(input1, 0, op1_spot);
+		i_num_1 = i_num_1.assign(input1, op1_spot + 1, input1_len);
+		i_num_1.pop_back();
+		real_num_2 = real_num_2.assign(input2, 0, op2_spot);
+		i_num_2 = i_num_2.assign(input2, op2_spot + 1, input2_len);
+		i_num_2.pop_back();
+		//如果為- 虛部加上負號
+		if (input1[op1_spot] == '-')
+			i_num_1.insert(0, "-");
+		if (input2[op2_spot] == '-')
+			i_num_2.insert(0, "-");
+
+		//字串轉小數(整數)
+		double dec_cmp_1,dec_cmp_2;
+		double i_dec_cmp_1,i_dec_cmp_2;
+		stringstream ss;
+		ss << real_num_1;
+		ss >> dec_cmp_1;
+		ss.str("");
+		ss.clear();
+		ss << i_num_1;
+		ss >> i_dec_cmp_1;
+		ss.str("");
+		ss.clear();
+		ss << real_num_2;
+		ss >> dec_cmp_2;
+		ss.str("");
+		ss.clear();
+		ss << i_num_2;
+		ss >> i_dec_cmp_2;
+		ss.str("");
+		ss.clear();
+		//cout << dec_cmp_1 << " " << i_dec_cmp_1 << endl << dec_cmp_2 << " " << i_dec_cmp_2 << endl;
+
+		//減法
+		double ans_real, ans_i;
+		ans_real = dec_cmp_1 - dec_cmp_2;
+		ans_i = i_dec_cmp_1 - i_dec_cmp_2;
+		
+
+		//虛部大於0則補上+號
+		if (ans_i >= 0)
+			cout << ans_real << "+" << ans_i << "i" << endl;
+		else
+			cout << ans_real << ans_i << "i" << endl;
+
+	}
+	return 0;
+}
